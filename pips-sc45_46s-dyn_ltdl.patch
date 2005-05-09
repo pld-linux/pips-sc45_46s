@@ -1,0 +1,32 @@
+diff -Nur pips-sc45_46s-2.6.2.orig/configure.in pips-sc45_46s-2.6.2/configure.in
+--- pips-sc45_46s-2.6.2.orig/configure.in	2004-11-30 03:26:08.000000000 +0100
++++ pips-sc45_46s-2.6.2/configure.in	2005-04-22 17:24:32.000000000 +0200
+@@ -4,7 +4,6 @@
+ 
+ AM_CONFIG_HEADER(config.h)
+ AC_CONFIG_SRCDIR(src/pips.c)
+-AC_CONFIG_SUBDIRS(libltdl)
+ 
+ MODEL_L=SC45_46S
+ 
+@@ -29,7 +28,7 @@
+ AM_PROG_CC_STDC
+ AC_PROG_INSTALL
+ AC_LIBTOOL_DLOPEN
+-AC_LIBLTDL_CONVENIENCE
++AC_LIBLTDL_INSTALLABLE
+ AM_PROG_LIBTOOL
+ 
+ AC_SUBST(INCLTDL)
+diff -Nur pips-sc45_46s-2.6.2.orig/Makefile.am pips-sc45_46s-2.6.2/Makefile.am
+--- pips-sc45_46s-2.6.2.orig/Makefile.am	2004-11-30 03:25:57.000000000 +0100
++++ pips-sc45_46s-2.6.2/Makefile.am	2005-04-22 17:24:41.000000000 +0200
+@@ -2,7 +2,7 @@
+ # Copyright (C) 2000-2004 EPSON KOWA Corporation.
+ # Copyright (C) SEIKO EPSON CORPORATION 2000-2004.
+ 
+-SUBDIRS = libltdl src dtrfilter ekpd ekpnavi ekpstm \
++SUBDIRS = src dtrfilter ekpd ekpnavi ekpstm \
+ 	freset intl layout_script lib po ppd \
+ 	setup redhat doc pixmaps
+ 
