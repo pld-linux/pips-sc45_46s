@@ -1,0 +1,123 @@
+diff -Nur pips-sc45_46s-2.6.2.orig/doc/readme-sc45_46s pips-sc45_46s-2.6.2/doc/readme-sc45_46s
+--- pips-sc45_46s-2.6.2.orig/doc/readme-sc45_46s	2005-05-09 00:50:31.000000000 +0200
++++ pips-sc45_46s-2.6.2/doc/readme-sc45_46s	2005-05-09 00:53:29.000000000 +0200
+@@ -97,12 +97,6 @@
+     5:Specify the spool directory
+     6:Specify the maximum file size for spooling(Set 0 for the unlimited value)
+ 
+-Additionally, the following description is added to
+-/etc/services. This is also automatically added at the time of
+-installation.
+-
+-    cbtd     35586/tcp
+-
+ Finally, correct "PrinterDevicePath" entry of /etc/ekpdrc. Please
+ describe the path to the device driver of the port where the printer
+ is connected after '='.
+diff -Nur pips-sc45_46s-2.6.2.orig/setup/inst-cups-post.sh pips-sc45_46s-2.6.2/setup/inst-cups-post.sh
+--- pips-sc45_46s-2.6.2.orig/setup/inst-cups-post.sh	2005-05-09 00:50:31.000000000 +0200
++++ pips-sc45_46s-2.6.2/setup/inst-cups-post.sh	2005-05-09 00:55:20.000000000 +0200
+@@ -45,21 +45,6 @@
+ 
+ case "$1" in
+     install)
+-	KEY=`grep 35586 < /etc/services`
+-	if [ -z "$KEY" ]; then
+-	    if [ -s $ETCDIR/services ]; then
+-		cp $ETCDIR/services $ETCDIR/services.bak
+-	    fi
+-	    cat <<EOF >>$ETCDIR/services
+-# written for $PIPS_BIN_NAME
+-cbtd     35586/tcp
+-# $PIPS_BIN_NAME  end
+-EOF
+-	    
+-	    echo "Install Message > Described entry of $PRINTER_MODEL in services."
+-	    echo "Install Message > Backup file is /etc/services.bak."
+-	fi
+-	
+ #
+ # rcfile install
+ #
+@@ -73,14 +58,6 @@
+ 	;;
+ 
+     deinstall)
+-	if [ -s $DESTDIR/etc/services ]; then
+-	    KEY=`grep "\# written for $PIPS_BIN_NAME" /etc/services`
+-	    if [ -n "$KEY" ]; then
+-		mv $DESTDIR/etc/services $DESTDIR/etc/services.bak
+-		sed -e "/# written for $PIPS_BIN_NAME/,/# $PIPS_BIN_NAME  end/d" < $DESTDIR/etc/services.bak > $DESTDIR/etc/services
+-	    fi
+-	fi
+-
+ 	$PKGDATADIR/inst-rc_d.sh deinstall
+ 	;;
+     *)
+diff -Nur pips-sc45_46s-2.6.2.orig/setup/inst-lpr-post.sh pips-sc45_46s-2.6.2/setup/inst-lpr-post.sh
+--- pips-sc45_46s-2.6.2.orig/setup/inst-lpr-post.sh	2005-05-09 00:50:31.000000000 +0200
++++ pips-sc45_46s-2.6.2/setup/inst-lpr-post.sh	2005-05-09 00:54:41.000000000 +0200
+@@ -79,22 +79,6 @@
+ 	    echo "Install Message > Backup file is ${PRINTCAP}.bak."
+ 	fi
+ 	
+-	
+-	KEY=`grep 35586 < /etc/services`
+-	if [ -z "$KEY" ]; then
+-	    if [ -s $ETCDIR/services ]; then
+-		cp $ETCDIR/services $ETCDIR/services.bak
+-	    fi
+-	    cat <<EOF >>$ETCDIR/services
+-# written for $PIPS_BIN_NAME
+-cbtd     35586/tcp
+-# $PIPS_BIN_NAME  end
+-EOF
+-	    
+-	    echo "Install Message > Described entry of $PIPS_BIN_NAME in services."
+-	    echo "Install Message > Backup file is /etc/services.bak."
+-	fi
+-	
+ #
+ # rcfile install
+ #
+@@ -139,14 +123,6 @@
+ 	    fi
+ 	fi
+ 	
+-	if [ -s $DESTDIR/etc/services ]; then
+-	    KEY=`grep "\# written for $PIPS_BIN_NAME" /etc/services`
+-	    if [ -n "$KEY" ]; then
+-		mv $DESTDIR/etc/services $DESTDIR/etc/services.bak
+-		sed -e "/# written for $PIPS_BIN_NAME/,/# $PIPS_BIN_NAME  end/d" < $DESTDIR/etc/services.bak > $DESTDIR/etc/services
+-	    fi
+-	fi
+-	
+ 	if [ -d $DESTDIR/var/spool/lpd/${PRINTER_MODEL_LOW} ]; then
+ 	    rm -rf $DESTDIR/var/spool/lpd/${PRINTER_MODEL_LOW}
+ 	fi
+diff -Nur pips-sc45_46s-2.6.2.orig/src/pipsCom.c pips-sc45_46s-2.6.2/src/pipsCom.c
+--- pips-sc45_46s-2.6.2.orig/src/pipsCom.c	2004-11-30 03:24:37.000000000 +0100
++++ pips-sc45_46s-2.6.2/src/pipsCom.c	2005-05-09 00:52:56.000000000 +0200
+@@ -45,7 +45,6 @@
+   int len;
+   struct sockaddr_in address;
+   struct hostent *hostinfo;
+-  struct servent *servinfo;
+ 
+   if (host == NULL)
+       host = "localhost";
+@@ -53,13 +52,10 @@
+   hostinfo = gethostbyname (host);
+   if (!hostinfo) return -1;
+ 
+-  servinfo = getservbyname ("cbtd", "tcp");
+-  if (!servinfo) return -1;
+-
+   sockfd = socket (AF_INET, SOCK_STREAM, 0);
+   address.sin_family = AF_INET;
+   address.sin_addr = *(struct in_addr *)*hostinfo->h_addr_list;
+-  address.sin_port = servinfo->s_port;
++  address.sin_port = htons(35586);
+ 
+   len = sizeof (address);
+   if (connect (sockfd, (struct sockaddr *)&address, len) == -1)
