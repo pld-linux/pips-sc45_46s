@@ -1,0 +1,72 @@
+diff -Nur pips-sc45_46s-2.6.2/setup.orig/inst-lpr-post.sh pips-sc45_46s-2.6.2/setup/inst-lpr-post.sh
+--- pips-sc45_46s-2.6.2/setup.orig/inst-lpr-post.sh	2005-05-09 01:06:59.000000000 +0200
++++ pips-sc45_46s-2.6.2/setup/inst-lpr-post.sh	2005-05-09 01:08:13.000000000 +0200
+@@ -48,10 +48,6 @@
+ 
+ case "$1" in
+     install)
+-	if [ ! -s $ETCDIR/pipsrc ]; then
+-	    touch $ETCDIR/pipsrc
+-	fi
+-	
+ 	if [ ! -s $PRINTCAP ]; then
+ 	    touch $PRINTCAP
+ 	fi
+@@ -79,11 +75,6 @@
+ 	    echo "Install Message > Backup file is ${PRINTCAP}.bak."
+ 	fi
+ 	
+-#
+-# rcfile install
+-#
+-	DESTDIR=$DESTDIR $PKGDATADIR/inst-rc_d.sh install
+-	
+ 	echo "Install Message > Start /usr/local/EPKowa/$PRINTER_MODEL/setup to change setup."
+ 	
+ 	OLDMASK=`umask`
+@@ -99,8 +89,7 @@
+ 	umask $OLDMASK
+ 	
+ # printer reset
+-	DIST=`$PKGDATADIR/inst-rc_d.sh checkdist`
+-	$PKGDATADIR/rc.d/ekpd.$DIST restart 2>&1 1>/dev/null
++	/etc/rc.d/init.d/ekpd restart 2>&1 1>/dev/null
+ 	
+ 	CHECKPC=`whereis -b checkpc | sed -e "s/^.*:[[:space:]]*//"`
+ 	if [ -n "$CHECKPC" -a -x "$CHECKPC" ] ; then
+@@ -126,8 +116,6 @@
+ 	if [ -d $DESTDIR/var/spool/lpd/${PRINTER_MODEL_LOW} ]; then
+ 	    rm -rf $DESTDIR/var/spool/lpd/${PRINTER_MODEL_LOW}
+ 	fi
+-	
+-	$PKGDATADIR/inst-rc_d.sh deinstall
+ 	;;
+     *)
+ 	echo "Usage: install_post.sh { install | deinstall }" >&2
+diff -Nur pips-sc45_46s-2.6.2/setup.orig/setup-cups.sh pips-sc45_46s-2.6.2/setup/setup-cups.sh
+--- pips-sc45_46s-2.6.2/setup.orig/setup-cups.sh	2005-05-09 01:06:59.000000000 +0200
++++ pips-sc45_46s-2.6.2/setup/setup-cups.sh	2005-05-09 01:08:46.000000000 +0200
+@@ -143,7 +143,6 @@
+ 
+ 
+ # printer reset
+-DIST=`$PKG_PATH/inst-rc_d.sh checkdist`
+-$RC_D_PATH/ekpd.$DIST restart 2>&1 1>/dev/null
++/etc/rc.d/init.d/ekpd restart 2>&1 1>/dev/null
+ 
+ exit 0
+diff -Nur pips-sc45_46s-2.6.2/setup.orig/setup-lpr.sh pips-sc45_46s-2.6.2/setup/setup-lpr.sh
+--- pips-sc45_46s-2.6.2/setup.orig/setup-lpr.sh	2005-05-09 01:06:59.000000000 +0200
++++ pips-sc45_46s-2.6.2/setup/setup-lpr.sh	2005-05-09 01:09:00.000000000 +0200
+@@ -199,8 +199,7 @@
+ umask $OLDMASK
+ 
+ # printer reset
+-DIST=`$PKG_PATH/inst-rc_d.sh checkdist`
+-$RC_D_PATH/ekpd.$DIST restart 2>&1 1>/dev/null
++/etc/rc.d/init.d/ekpd restart 2>&1 1>/dev/null
+ 
+ CHECKPC=`whereis -b checkpc | sed -e "s/^.*:[[:space:]]*//"`
+ if [ -n "$CHECKPC" -a -x "$CHECKPC" ] ; then
+--- pips-sc45_46s-2.6.2/setup/inst-lpr-post.sh.orig	2005-05-09 01:15:40.000000000 +0200
++++ pips-sc45_46s-2.6.2/setup/inst-lpr-post.sh	2005-05-09 01:16:18.000000000 +0200
