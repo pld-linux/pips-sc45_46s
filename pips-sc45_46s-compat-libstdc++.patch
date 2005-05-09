@@ -1,0 +1,8 @@
+--- pips-sc45_46s-2.6.2/dtrfilter/Makefile.am.orig	2005-04-22 17:29:10.000000000 +0200
++++ pips-sc45_46s-2.6.2/dtrfilter/Makefile.am	2005-04-22 17:30:11.000000000 +0200
+@@ -11,4 +11,4 @@
+ 	pips_def.h \
+ 	libdtr.h
+ 
+-dtrfilter_LDADD = -ldl -lm $(top_srcdir)/lib/libdtr.a
++dtrfilter_LDADD = -ldl -lm $(top_srcdir)/lib/libdtr.a $(libdir)/libstdc++-3-libc6.2-2-2.10.0.so
