@@ -1,0 +1,68 @@
+#!/bin/sh
+#
+# ekpd		This daemon passes print jobs to an Epson printer device.
+#
+# chkconfig:	2345 58 61
+#
+# description:	ekpd is a daemon that handles Epson-specific port I/O to print
+#		any print jobs it receives.
+#
+# processname:	ekpd
+# config:	/etc/ekpdrc
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+# Get network config
+. /etc/sysconfig/network
+
+# Check that networking is up.
+if is_yes "${NETWORKING}"; then
+	if [ ! -f /var/lock/subsys/network -a "$1" != stop -a "$1" != status ]; then
+		msg_network_down ekpd
+		exit 1
+	fi
+else
+	exit 0
+fi
+
+RETVAL=0
+# See how we were called.
+case "$1" in
+  start)
+	# Check if the service is already running?
+	if [ ! -f /var/lock/subsys/ekpd ]; then
+		msg_starting "EPSON KOWA Printer Daemon"
+		# contains NPTL-unfriendly code
+		LD_ASSUME_KERNEL=2.4.6; export LD_ASSUME_KERNEL
+		daemon --user lp ekpd
+		RETVAL=$?
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/ekpd
+	else
+		msg_already_running "EPSON KOWA Printer Daemon"
+	fi
+	;;
+  stop)
+	if [ -f /var/lock/subsys/ekpd ]; then
+		msg_stopping "EPSON KOWA Printer Daemon"
+		killproc ekpd
+		rm -f /var/lock/subsys/ekpd >/dev/null 2>&1
+	else
+		msg_not_running "EPSON KOWA Printer Daemon"
+	fi
+	;;
+  status)
+	status ekpd
+	exit $?
+	;;
+  restart|force-reload)
+	$0 stop
+	$0 start
+	exit $?
+	;;
+  *)
+	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	exit 3
+esac
+
+exit $RETVAL
