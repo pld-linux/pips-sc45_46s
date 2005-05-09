@@ -1,0 +1,55 @@
+--- pips-sc45_46s-2.6.2/src/Makefile.am.orig	2005-04-22 17:16:17.000000000 +0200
++++ pips-sc45_46s-2.6.2/src/Makefile.am	2005-04-22 17:18:15.000000000 +0200
+@@ -16,6 +16,7 @@
+ MODEL = sc45_46s
+ MODEL_L = $(shell echo $(MODEL) | tr [:lower:] [:upper:])
+ 
++AM_CFLAGS=
+ # LPR
+ AM_CFLAGS += -DGS_PATH=\"gs\"
+ AM_CFLAGS += -DLOCALEDIR=\"$(datadir)/locale\"
+@@ -35,7 +36,7 @@
+ # CUPS
+ AM_CFLAGS += -DCUPS_FILTER_PATH=\"$(cupsfilterdir)\"
+ 
+-INCLUDES += @GTK_CFLAGS@ 
++INCLUDES = @GTK_CFLAGS@ 
+ 
+ libcutils_la_SOURCES = \
+ 	str.c str.h \
+@@ -79,12 +80,12 @@
+ 	optBase.h \
+ 	prtOpt.h
+ 
+-rastertopips_LDFLAGS += \
++rastertopips_LDFLAGS = \
+ 	@CUPS_IMAGE_LIBS@
+ rastertopips_SOURCES = \
+ 	rastertopips.c \
+ 	ekpcom.c ekpcom.h
+-pipstoprinter_LDFLAGS += \
++pipstoprinter_LDFLAGS = \
+ 	@LIBLTDL@ \
+ 	@CUPS_LIBS@ \
+ 	libcutils.la
+@@ -95,7 +96,7 @@
+ 	ekpcom.c ekpcom.h \
+ 	getstat.c getstat.h
+ 
+-ekplp_LDFLAGS += \
++ekplp_LDFLAGS = \
+ 	@CUPS_LIBS@ \
+ 	libcutils.la
+ ekplp_SOURCES = \
+diff -Nur pips-sc45_46s-2.6.2/src.orig/Makefile.am pips-sc45_46s-2.6.2/src/Makefile.am
+--- pips-sc45_46s-2.6.2/src.orig/Makefile.am	2005-04-22 17:18:51.000000000 +0200
++++ pips-sc45_46s-2.6.2/src/Makefile.am	2005-04-22 17:20:32.000000000 +0200
+@@ -39,7 +39,7 @@
+ INCLUDES = @GTK_CFLAGS@ 
+ 
+ libcutils_la_SOURCES = \
+-	str.c str.h \
++	str_lib.c str.h \
+ 	err.c err.h \
+ 	csv.c csv.h \
+ 	mem.c mem.h \
