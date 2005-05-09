@@ -1,0 +1,25 @@
+--- pips-sc45_46s-2.6.2/ekpd/cbtd_datatrans.c.orig	2005-04-22 22:38:12.000000000 +0200
++++ pips-sc45_46s-2.6.2/ekpd/cbtd_datatrans.c	2005-04-22 22:38:32.000000000 +0200
+@@ -198,7 +198,7 @@
+ 	if (access (path, F_OK) == 0)
+ 		remove(path);
+ 
+-	if (mkfifo (path, 0666))
++	if (mkfifo (path, 0600))
+ 		return -1;
+ 
+ 	if (is_sysflags (p_info, ST_JOB_CANCEL | ST_JOB_CANCEL_NO_D4))
+--- pips-sc45_46s-2.6.2/ekpd/cbtd.c.orig	2005-04-22 22:58:06.000000000 +0200
++++ pips-sc45_46s-2.6.2/ekpd/cbtd.c	2005-04-22 22:58:38.000000000 +0200
+@@ -83,11 +83,6 @@
+ #ifndef _DEBUG
+ 	int pid;
+ 
+-	if (geteuid () != 0)
+-	{
+-		fprintf (stderr, "must run as root\n");
+-		return 1;
+-	}
+ 	/* shift to daemon process */
+ 	if ((pid = fork ()))
+ 	{
