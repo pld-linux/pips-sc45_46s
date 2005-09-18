@@ -25,6 +25,7 @@ BuildRequires:	gtk+-devel >= 0.99.7
 BuildRequires:	libltdl-devel
 BuildRequires:	libtool
 BuildRequires:	rpmbuild(macros) >= 1.174
+BuildRequires:	sed >= 4.0
 Requires:	ghostscript
 Requires(post,preun):	/sbin/chkconfig
 ExclusiveArch:	%{ix86}
