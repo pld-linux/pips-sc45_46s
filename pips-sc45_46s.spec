@@ -1,4 +1,4 @@
-Summary:	Stylus C45/C46 Series Photo Image Print System for Linux
+Summary:	Stylus C45/C46 Series Photo Image Print System
 Summary(pl):	System druku fotograficznego dla serii Stylus C45/C46 dla Linuksa
 Name:		pips-sc45_46s
 Version:	2.6.2
@@ -35,8 +35,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_kowadir	%{_libdir}/EPKowa
 
 %description
-This software is a printer driver (filter) for the high quality print
-with SEIKO EPSON color ink jet printer from the Linux.
+This software is a printer driver (filter) for high quality print
+with EPSON Stylus C45 and C46 color ink jet printers.
 
 %description -l pl
 Sterownik drukarki (filtr) dla wysokojako¶ciowego wydruku na
