@@ -2,7 +2,7 @@ Summary:	Stylus C45/C46 Series Photo Image Print System
 Summary(pl):	System druku fotograficznego dla serii drukarek Stylus C45/C46
 Name:		pips-sc45_46s
 Version:	2.6.2
-Release:	1
+Release:	2
 License:	Mixed (GPL, LGPL, distributable)
 Group:		Applications/Printing
 Source0:	http://lx2.avasys.jp/pips/sc45_46/%{name}-%{version}.tar.gz
@@ -93,6 +93,8 @@ rm -rf $RPM_BUILD_ROOT%{_kowadir}/SC45_46S/{ekpd.*,*readme*,rc.d,inst-rc_d.sh}
 rm -f $RPM_BUILD_ROOT%{_libdir}/libsc45_46s.so
 # doesn't do anything this RPM doesn't
 rm -f $RPM_BUILD_ROOT%{_kowadir}/SC45_46S/scripts/inst-cups-post.sh
+
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/zh{,_CN}
 
 %find_lang %{name}
 
