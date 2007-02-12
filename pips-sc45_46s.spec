@@ -1,5 +1,5 @@
 Summary:	Stylus C45/C46 Series Photo Image Print System
-Summary(pl):	System druku fotograficznego dla serii drukarek Stylus C45/C46
+Summary(pl.UTF-8):   System druku fotograficznego dla serii drukarek Stylus C45/C46
 Name:		pips-sc45_46s
 Version:	2.6.2
 Release:	2
@@ -38,21 +38,21 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 This software is a printer driver (filter) for high quality print
 with EPSON Stylus C45 and C46 color ink jet printers.
 
-%description -l pl
-Sterownik drukarki (filtr) dla wysokojako¶ciowego wydruku na
+%description -l pl.UTF-8
+Sterownik drukarki (filtr) dla wysokojakoÅ›ciowego wydruku na
 kolorowych drukarkach atramentowych EPSON Stylus C45 i C46.
 
 %package cups
 Summary:	Cups binding of Stylus C45/C46 print system
-Summary(pl):	Dowi±zania systemu druku Stylus C45/C46 dla cupsa
+Summary(pl.UTF-8):   DowiÄ…zania systemu druku Stylus C45/C46 dla cupsa
 Group:		Applications/Printing
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 %description cups
 Cups binding of Stylus C45/C46 print system.
 
-%description cups -l pl
-Dowi±zania systemu druku Stylus C45/C46 dla cupsa.
+%description cups -l pl.UTF-8
+DowiÄ…zania systemu druku Stylus C45/C46 dla cupsa.
 
 %prep
 %setup -q
