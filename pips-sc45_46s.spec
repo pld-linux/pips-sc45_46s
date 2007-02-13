@@ -1,5 +1,5 @@
 Summary:	Stylus C45/C46 Series Photo Image Print System
-Summary(pl.UTF-8):   System druku fotograficznego dla serii drukarek Stylus C45/C46
+Summary(pl.UTF-8):	System druku fotograficznego dla serii drukarek Stylus C45/C46
 Name:		pips-sc45_46s
 Version:	2.6.2
 Release:	2
@@ -44,7 +44,7 @@ kolorowych drukarkach atramentowych EPSON Stylus C45 i C46.
 
 %package cups
 Summary:	Cups binding of Stylus C45/C46 print system
-Summary(pl.UTF-8):   Dowiązania systemu druku Stylus C45/C46 dla cupsa
+Summary(pl.UTF-8):	Dowiązania systemu druku Stylus C45/C46 dla cupsa
 Group:		Applications/Printing
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 
