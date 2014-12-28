@@ -20,7 +20,7 @@ BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	compat-libstdc++-2.10
 BuildRequires:	cups-devel
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	gtk+-devel >= 0.99.7
 BuildRequires:	libltdl-devel
 BuildRequires:	libtool
