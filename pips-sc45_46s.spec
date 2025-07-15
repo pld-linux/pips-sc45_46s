@@ -56,14 +56,14 @@ Dowiązania systemu druku Stylus C45/C46 dla cupsa.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch -P0 -p1
 # belongs with patch0
 cp src/str{,_lib}.c
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
+%patch -P1 -p1
+%patch -P2 -p1
+%patch -P3 -p1
+%patch -P4 -p1
+%patch -P5 -p1
 sed -i 's,/usr/local/EPKowa,%{_kowadir},' setup/* src/filter.tmp doc/* configure.in
 sed -i 's,/var/ekpd,%{_pipedir},' src/filter.tmp src/ekplp.c ekpd/*.* {setup,doc}/*
 
